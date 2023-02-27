@@ -115,11 +115,6 @@ for therapist in therapists.keys():
             start, end = therapists[therapist]['Week'][day]
             prob += lpSum([x[(therapist,day,patient,'Group')] for patient in patients.keys()]) <= (end - start) / 0.5
 
-# One-patient-per-therapist constraint
-for therapist in therapists.keys():
-    for patient in patients.keys():
-        prob += lpSum([x[(therapist,day,patient,'Group')] for day in therapists[therapist]['Week'].keys()]) <= 1
-
 # Therapist + patient same group constraint
 for therapist in therapists.keys():
     for patient in patients.keys():

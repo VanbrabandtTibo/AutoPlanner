@@ -141,8 +141,5 @@ for patient in patients.keys():
             scheduled = [therapist for therapist in therapists.keys() if value(x[(therapist,day,patient,'Group')]) == 1]
             if len(scheduled) > 0:
                 scheduled_str = ', '.join(scheduled)
-                for therapist in scheduled:
-                    if not any(item in therapists[therapist]['Group'] for item in patients[patient]['Group']):
-                        print(f"  WARNING: {therapist} has a different group than {patient}")
                 print(f"  {day}: {scheduled_str} ({start}-{end}h)")
     print()

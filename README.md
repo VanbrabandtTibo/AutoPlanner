@@ -1,1 +1,1 @@
-# AutoPlanner
+# AutoPlanner using linear programming

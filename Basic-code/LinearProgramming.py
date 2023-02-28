@@ -94,7 +94,7 @@ prob += lpSum([x[(therapist,day,patient)]
                for day in days
                for patient in patients.keys()])
 
-# Constraint to look if a patient can be scheduled on a day and time slot by a therapist
+# Constraint to look if a patient can be scheduled on a day and time slot by a therapist of the same group
 for patient in patients.keys():
     for day in days:
         if patients[patient]['Week'][day] is not None:
@@ -105,6 +105,28 @@ for patient in patients.keys():
                            and therapists[therapist]['Week'][day][0] <= start 
                            and therapists[therapist]['Week'][day][1] >= end
                            and therapists[therapist]['Week'][day][2] == g]) == 1
+            
+# Constraint to check if a patient want a session or not and if a therapist is available with the same group and time slot and check if other patients will participate
+# for therapist in therapists.keys():
+#     for day in days:
+#         if therapists[therapist]['Week'][day] is not None:
+#             start, end, g = therapists[therapist]['Week'][day]
+#             prob += lpSum([x[(therapist,day,patient)] 
+#                            for patient in patients.keys() 
+#                            if patients[patient]['Week'][day] is not None 
+#                            and patients[patient]['Week'][day][0] <= start 
+#                            and patients[patient]['Week'][day][1] >= end
+#                            and patients[patient]['Week'][day][2] == g
+#                            and patients[patient]['Session'] == True]) <= 1
+#             prob += lpSum([x[(therapist,day,patient)] 
+#                            for patient in patients.keys() 
+#                            if patients[patient]['Week'][day] is not None 
+#                            and patients[patient]['Week'][day][0] <= start 
+#                            and patients[patient]['Week'][day][1] >= end
+#                            and patients[patient]['Week'][day][2] == g
+#                            and patients[patient]['Session'] == False]) <= 1
+
+# Forfait constraints
 
 # Solve the problem
 status = prob.solve()

@@ -82,16 +82,6 @@ class TherapistScheduler:
                     start, end = self.patients[patient][day]
                     self.prob += lpSum([self.x[(therapist,day,patient)] for therapist in self.therapists.keys()]) <= (end - start) / 0.5
 
-        # Therapist availability constraint
-        for therapist in self.therapists.keys():
-            for day in self.therapists[therapist].keys():
-                if self.therapists[therapist][day] is None:
-                    for patient in self.patients.keys():
-                        self.prob += self.x[(therapist,day,patient)] == 0
-                else:
-                    start, end = self.therapists[therapist][day]
-                    self.prob += lpSum([self.x[(therapist,day,patient)] for patient in self.patients.keys()]) <= (end - start) / 0.5
-
         # One-patient-per-therapist constraint
         for therapist in self.therapists.keys():
             for patient in self.patients.keys():

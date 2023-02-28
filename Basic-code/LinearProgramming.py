@@ -77,61 +77,47 @@ patients = {
     }
 }
 
-invoice = {}
-
 # Create a maximization problem
 prob = LpProblem("Therapist scheduling", LpMaximize)
 
 days = [day for therapist in therapists.values() for day in therapist['Week'].keys()]
-# Define decision variables
-x = LpVariable.dicts('x', [(therapist,day,patient,'Group') 
-                           for therapist in therapists.keys() 
-                           for day in days 
-                           for patient in patients.keys()], cat=LpBinary)
-print(x)
+
+# Decision variables
+x = LpVariable.dicts("Therapist", [(therapist,day,patient) 
+                                   for therapist in therapists.keys() 
+                                   for day in days 
+                                   for patient in patients.keys()], cat='LpBinary')
 
 # Define objective function
-prob += lpSum([x[(therapist,day,patient,'Group')] 
+prob += lpSum([x[(therapist,day,patient)] 
                for therapist in therapists.keys() 
                for day in days
                for patient in patients.keys()])
 
-# Patient availability constraint
+# Constraint to look if a patient can be scheduled on a day and time slot by a therapist
 for patient in patients.keys():
-    for day in therapists['Therapist 1']['Week'].keys():
+    for day in days:
         if patients[patient]['Week'][day] is not None:
-            start, end, patient_group = patients[patient]['Week'][day]
-            for therapist in therapists.keys():
-                if therapists[therapist]['Week'][day] is not None:
-                    therapist_group = therapists[therapist]['Week'][day][2]
-                    prob += lpSum([x[(therapist,day,patient,'Group')] for therapist in therapists.keys() if therapist_group == patient_group]) <= (end - start) / 0.5
+            start, end, g = patients[patient]['Week'][day]
+            prob += lpSum([x[(therapist,day,patient)] 
+                           for therapist in therapists.keys() 
+                           if therapists[therapist]['Week'][day] is not None 
+                           and therapists[therapist]['Week'][day][0] <= start 
+                           and therapists[therapist]['Week'][day][1] >= end]) == 1
 
-# Therapist availability constraint
-for therapist in therapists.keys():
-    for day in therapists[therapist]['Week'].keys():
-        if therapists[therapist]['Week'][day] is not None:
-            start, end, therapist_group = therapists[therapist]['Week'][day]
-            for patient in patients.keys():
-                if patients[patient]['Week'][day] is not None:
-                    patient_group = patients[patient]['Week'][day][2]
-                    prob += lpSum([x[(therapist,day,patient,'Group')] for patient in patients.keys() if patient_group == therapist_group]) <= (end - start) / 0.5
-
-# Therapist + patient same group constraint
-for therapist in therapists.keys():
-    for patient in patients.keys():
-        for day in therapists['Therapist 1']['Week'].keys():
-            if therapists[therapist]['Week'][day] is not None and patients[patient]['Week'][day] is not None:
-                if therapists[therapist]['Week'][day][2] == patients[patient]['Week'][day][2]:
-                    prob += lpSum([x[(therapist,day,patient,'Group')] for day in therapists[therapist]['Week'].keys()]) <= 1
-                else:
-                    prob += lpSum([x[(therapist,day,patient,'Group')] for day in therapists[therapist]['Week'].keys()]) == 0
-
-# Session up to 4 children (check if the child wants a groupsession, if yes, check if the child can be set together with other children)
-# Invoice constraint
-# Driver constrained (driver available + child needs driver?)
+# Constraint to look if a patient has the same group as the therapist
+for patient in patients.keys():
+    for day in days:
+        if patients[patient]['Week'][day] is not None:
+            start, end, g = patients[patient]['Week'][day]
+            prob += lpSum([x[(therapist,day,patient)] 
+                           for therapist in therapists.keys() 
+                           if therapists[therapist]['Week'][day] is not None 
+                           and therapists[therapist]['Week'][day][2] == g]) == 1
 
 # Solve the problem
 status = prob.solve()
+print("Status:", LpStatus[status])
 
 # Print the optimal schedule
 print(f"Total appointments scheduled: {int(value(prob.objective))}\n")
@@ -140,7 +126,7 @@ for patient in patients.keys():
     for day in therapists['Therapist 1']['Week'].keys():
         if patients[patient]['Week'][day] is not None:
             start, end, g = patients[patient]['Week'][day]
-            scheduled = [therapist for therapist in therapists.keys() if value(x[(therapist,day,patient,'Group')]) == 1]
+            scheduled = [therapist for therapist in therapists.keys() if value(x[(therapist,day,patient)]) == 1]
             if len(scheduled) > 0:
                 scheduled_str = ', '.join(scheduled)
                 print(f"  {day}: {scheduled_str} ({start}-{end}h)")

@@ -43,7 +43,7 @@ patients = {
         'Week' : {
             'Monday': (10, 11, 1),
             'Tuesday': (12, 13, 1),
-            'Wednesday': (15, 16, 1),
+            'Wednesday': None,
             'Thursday': (11, 12, 1),
             'Friday': None,
             'Saturday': None,
@@ -103,21 +103,12 @@ for patient in patients.keys():
                            for therapist in therapists.keys() 
                            if therapists[therapist]['Week'][day] is not None 
                            and therapists[therapist]['Week'][day][0] <= start 
-                           and therapists[therapist]['Week'][day][1] >= end]) == 1
-
-# Constraint to look if a patient has the same group as the therapist
-for patient in patients.keys():
-    for day in days:
-        if patients[patient]['Week'][day] is not None:
-            start, end, g = patients[patient]['Week'][day]
-            prob += lpSum([x[(therapist,day,patient)] 
-                           for therapist in therapists.keys() 
-                           if therapists[therapist]['Week'][day] is not None 
+                           and therapists[therapist]['Week'][day][1] >= end
                            and therapists[therapist]['Week'][day][2] == g]) == 1
 
 # Solve the problem
 status = prob.solve()
-print("Status:", LpStatus[status])
+# print("Status:", LpStatus[status])
 
 # Print the optimal schedule
 print(f"Total appointments scheduled: {int(value(prob.objective))}\n")

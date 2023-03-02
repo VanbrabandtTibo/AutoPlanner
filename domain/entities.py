@@ -1,12 +1,12 @@
 from enum import Enum
 
 class DayOfTheWeek(Enum):
-    MONDAY = 1,
-    TUESDAY = 2,
-    WEDNESDAY = 3,
-    THURSDAY = 4,
-    FRIDAY = 5,
-    SATURDAY = 6,
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
+    SATURDAY = 6
     SUNDAY = 7
 
 
@@ -27,9 +27,13 @@ class ScheduleTemplateItem():
 
         Output: tuple containing (from_value, to_value, group_id)
         """
+
+        # this will pad zeros left so that there are 5 digits total with 2 digits after the decimal point.
+        pad_float = lambda float: '%05.2f'% float
+
         numeric_week_and_day = f"{self.week_number}{self.week_day}"
-        numeric_from = f"{numeric_week_and_day}{str(self.from_hours).ljust(2,'0')}" 
-        numeric_to = f"{numeric_week_and_day}{str(self.to_hours).ljust(2,'0')}" 
+        numeric_from = f"{numeric_week_and_day}{pad_float(self.from_hours)}" 
+        numeric_to = f"{numeric_week_and_day}{pad_float(self.to_hours)}" 
         return (numeric_from, numeric_to, self.patient_group)
     
     def __str__(self):

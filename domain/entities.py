@@ -88,3 +88,16 @@ class Patient(Person):
     def __str__(self) -> str:
         return f'Schedule template for patient {self.id}\n{str(self.schedule)}'
 
+
+
+class OptimizationProblemSchedule
+class OptimizationProblemBuilder:
+    def __init__(self, employees: list[Employee], patients: list[Patient]):
+        self._employees = employees
+        self._patients = patients
+        self._set_decision_variables()
+
+    def _set_decision_variables(self):
+
+
+		      

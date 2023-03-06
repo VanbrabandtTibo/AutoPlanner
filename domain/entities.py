@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Callable
 
 class DayOfTheWeek(Enum):
     MONDAY = 1
@@ -18,7 +19,7 @@ class ScheduleTemplateItem():
         self.from_hours = from_hours
         self.to_hours = to_hours
         self.patient_group = patient_group
-    
+
     def get_numeric_values(self):
         """
         Returns an float value that represents the from and to for a specific week number and day
@@ -87,5 +88,16 @@ class Patient(Person):
         
     def __str__(self) -> str:
         return f'Schedule template for patient {self.id}\n{str(self.schedule)}'
+    
 
+class PersonList:
+
+    def __init__(self, persons: list[Person]): 
+        self._persons = persons
+        self.group_persons_by_time_slot()
+
+    def group_persons_by_time_slot(self):
+        templates = set(map(lambda x:x.schedule.get_numeric_template() ,self._persons))
+        grouped_persons = [[person for person in self._persons if person.schedule.get_numeric_template()[0] == template[0] and 
+                                                                  person.schedule.get_numeric_template()[1] == template[1]] for template in templates]
 

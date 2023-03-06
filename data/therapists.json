@@ -1,0 +1,57 @@
+{ 
+    "Patient 1": { 
+        "Week": { 
+            "Monday": [10, 11], 
+            "Tuesday": [12, 13], 
+            "Wednesday": null, 
+            "Thursday": [11, 12], 
+            "Friday": null, 
+            "Saturday": null, 
+            "Sunday": null 
+        } 
+    }, 
+    "Patient 2": { 
+        "Week": { 
+            "Monday": null, 
+            "Tuesday": null, 
+            "Wednesday": [13, 14], 
+            "Thursday": [14, 15], 
+            "Friday": null, 
+            "Saturday": null, 
+            "Sunday": null 
+        } 
+    }, 
+    "Patient 3": { 
+        "Week": { 
+            "Monday": null, 
+            "Tuesday": [14, 15], 
+            "Wednesday": null, 
+            "Thursday": null, 
+            "Friday": [15, 16], 
+            "Saturday": null, 
+            "Sunday": null 
+        } 
+    }, 
+    "Patient 4" : { 
+        "Week": { 
+            "Monday": null, 
+            "Tuesday": null, 
+            "Wednesday": null, 
+            "Thursday": null, 
+            "Friday": null, 
+            "Saturday": [16, 17], 
+            "Sunday": [17, 18] 
+        } 
+    }, 
+    "Patient 5": { 
+        "Week": { 
+            "Monday": [14, 15], 
+            "Tuesday": null, 
+            "Wednesday": null, 
+            "Thursday": [14, 15], 
+            "Friday": null, 
+            "Saturday": null, 
+            "Sunday": null 
+        } 
+    } 
+}

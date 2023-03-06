@@ -12,13 +12,11 @@ class DayOfTheWeek(Enum):
 
 
 class ScheduleTemplateItem():
-
-    def __init__(self, week_number:int, week_day: int, from_hours: float, to_hours: float, patient_group: int):
+    def __init__(self, week_number:int, week_day: int, from_hours: float, to_hours: float):
         self.week_number = week_number
         self.week_day = week_day
         self.from_hours = from_hours
         self.to_hours = to_hours
-        self.patient_group = patient_group
 
     def get_numeric_values(self):
         """
@@ -35,27 +33,26 @@ class ScheduleTemplateItem():
         numeric_week_and_day = f"{self.week_number}{self.week_day}"
         numeric_from = f"{numeric_week_and_day}{pad_float(self.from_hours)}" 
         numeric_to = f"{numeric_week_and_day}{pad_float(self.to_hours)}" 
-        return (numeric_from, numeric_to, self.patient_group)
+        return (numeric_from, numeric_to)
     
     def __str__(self):
-            return f'{DayOfTheWeek(self.week_day).name} from {self.from_hours} to {self.to_hours} scheduled {self.patient_group}'
+            return f'{DayOfTheWeek(self.week_day).name} from {self.from_hours} to {self.to_hours}'
 
          
 
 class SchedulingTemplate():
-    
     def __init__(self, items: list[ScheduleTemplateItem] = None):
         if items:
             self.items = items
         else:
             self.items = []
 
-    def add_item(self, week_number: int, week_day: DayOfTheWeek, from_hours: float, to_hours: float, patient_group: int):
-        self.items.append(ScheduleTemplateItem(week_number=week_number, week_day=week_day.value, from_hours=from_hours, to_hours=to_hours, patient_group=patient_group))
+    def add_item(self, week_number: int, week_day: DayOfTheWeek, from_hours: float, to_hours: float):
+        self.items.append(ScheduleTemplateItem(week_number=week_number, week_day=week_day.value, from_hours=from_hours, to_hours=to_hours))
     
-    def add_items(self, items: list[tuple[int, DayOfTheWeek, float, float, int]]):
-        [self.add_item(week_number = week_number, week_day=week_day, from_hours=from_hours, to_hours=to_hours, patient_group=patient_group) 
-         for week_number, week_day, from_hours, to_hours, patient_group in items]
+    def add_items(self, items: list[tuple[int, DayOfTheWeek, float, float]]):
+        [self.add_item(week_number = week_number, week_day=week_day, from_hours=from_hours, to_hours=to_hours) 
+         for week_number, week_day, from_hours, to_hours in items]
         
     def get_numeric_template(self):
         return list([item.get_numeric_values() for item in self.items])
@@ -65,7 +62,6 @@ class SchedulingTemplate():
 
     
 class Person():
-
     def __init__(self, id: int, schedule: SchedulingTemplate = None):
         self.id = id
         if schedule:
@@ -91,7 +87,6 @@ class Patient(Person):
     
 
 class PersonList:
-
     def __init__(self, persons: list[Person]): 
         self._persons = persons
         self.group_persons_by_time_slot()
@@ -100,4 +95,3 @@ class PersonList:
         templates = set(map(lambda x:x.schedule.get_numeric_template() ,self._persons))
         grouped_persons = [[person for person in self._persons if person.schedule.get_numeric_template()[0] == template[0] and 
                                                                   person.schedule.get_numeric_template()[1] == template[1]] for template in templates]
-

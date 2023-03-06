@@ -1,55 +1,55 @@
 { 
-    "Patient 1": { 
+    "Therapist 1": { 
         "Week": { 
-            "Monday": [10, 11], 
-            "Tuesday": [12, 13], 
-            "Wednesday": null, 
-            "Thursday": [11, 12], 
+            "Monday": [9, 17], 
+            "Tuesday": [9, 17], 
+            "Wednesday": [13, 17], 
+            "Thursday": [10, 15], 
             "Friday": null, 
             "Saturday": null, 
             "Sunday": null 
         } 
     }, 
-    "Patient 2": { 
+    "Therapist 2": { 
         "Week": { 
             "Monday": null, 
-            "Tuesday": null, 
-            "Wednesday": [13, 14], 
-            "Thursday": [14, 15], 
-            "Friday": null, 
+            "Tuesday": [12, 16], 
+            "Wednesday": [11, 16], 
+            "Thursday": [12, 17], 
+            "Friday": [9, 17], 
             "Saturday": null, 
             "Sunday": null 
         } 
     }, 
-    "Patient 3": { 
+    "Therapist 3": { 
         "Week": { 
-            "Monday": null, 
-            "Tuesday": [14, 15], 
-            "Wednesday": null, 
+            "Monday": [10, 15], 
+            "Tuesday": [10, 14], 
+            "Wednesday": [10, 14], 
             "Thursday": null, 
-            "Friday": [15, 16], 
+            "Friday": [9, 16], 
             "Saturday": null, 
             "Sunday": null 
         } 
     }, 
-    "Patient 4" : { 
+    "Therapist 4" : { 
         "Week": { 
-            "Monday": null, 
-            "Tuesday": null, 
-            "Wednesday": null, 
-            "Thursday": null, 
-            "Friday": null, 
-            "Saturday": [16, 17], 
-            "Sunday": [17, 18] 
+            "Monday": [9, 17], 
+            "Tuesday": [9, 17], 
+            "Wednesday": [9, 17], 
+            "Thursday": [9, 17], 
+            "Friday": [9, 17], 
+            "Saturday": null, 
+            "Sunday": null 
         } 
     }, 
-    "Patient 5": { 
+    "Therapist 5" : { 
         "Week": { 
-            "Monday": [14, 15], 
-            "Tuesday": null, 
-            "Wednesday": null, 
-            "Thursday": [14, 15], 
-            "Friday": null, 
+            "Monday": [9, 16], 
+            "Tuesday": [9, 16], 
+            "Wednesday": [9, 16], 
+            "Thursday": [9, 16], 
+            "Friday": [9, 16], 
             "Saturday": null, 
             "Sunday": null 
         } 

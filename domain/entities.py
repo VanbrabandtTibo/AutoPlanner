@@ -48,7 +48,6 @@ class SchedulingTemplate():
         timeslot_ids = self.get_timeslots(from_numeric, to_numeric, generate_time_slots)
         # add the timeslots to the template
         self.items.extend(ScheduleTemplateItem(timeslot_id) for timeslot_id in timeslot_ids)
-        # self.items.append(ScheduleTemplateItem(week_number=week_number, week_day=week_day.value, from_hours=from_hours, to_hours=to_hours))
     
     def add_items(self, items: list[tuple[int, DayOfTheWeek, float, float]]):
         [self.add_item(week_number = week_number, week_day=week_day, from_hours=from_hours, to_hours=to_hours) 

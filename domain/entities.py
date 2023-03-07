@@ -44,8 +44,8 @@ class SchedulingTemplate():
     #     return list([item.get_numeric_values() for item in self.items])
     
     def get_timeslots(self, from_numeric: str, to_numeric: str, generate_time_slots: dict):
-        start_timeslot_id =  generate_time_slots.keys().find(from_numeric)
-        end_timeslot_id = generate_time_slots.keys().find(to_numeric)
+        start_timeslot_id =  generate_time_slots[from_numeric]
+        end_timeslot_id = generate_time_slots[to_numeric]
         return range(start_timeslot_id, end_timeslot_id + 1)
     
     @staticmethod

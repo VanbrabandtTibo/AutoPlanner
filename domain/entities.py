@@ -40,10 +40,13 @@ class SchedulingTemplate():
             self.items = []
 
     def add_item(self, week_number: int, week_day: DayOfTheWeek, from_hours: float, to_hours: float):
+        # get all possible timslots
         generate_time_slots = TimeSlotGenerator.generate_time_slots()
+        # get the numeric codes for the from and to values
         from_numeric, to_numeric = self.get_numeric_values(week_number, week_day, from_hours, to_hours)
+        # get the timeslot_ids that are between the from and to values
         timeslot_ids = self.get_timeslots(from_numeric, to_numeric, generate_time_slots)
-
+        # add the timeslots to the template
         self.items.extend(ScheduleTemplateItem(timeslot_id) for timeslot_id in timeslot_ids)
         # self.items.append(ScheduleTemplateItem(week_number=week_number, week_day=week_day.value, from_hours=from_hours, to_hours=to_hours))
     

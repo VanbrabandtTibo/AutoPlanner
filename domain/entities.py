@@ -40,8 +40,8 @@ class SchedulingTemplate():
         [self.add_item(week_number = week_number, week_day=week_day, from_hours=from_hours, to_hours=to_hours) 
          for week_number, week_day, from_hours, to_hours in items]
         
-    def get_numeric_template(self):
-        return list([item.get_numeric_values() for item in self.items])
+    # def get_numeric_template(self):
+    #     return list([item.get_numeric_values() for item in self.items])
     
     def get_timeslots(self, from_numeric: str, to_numeric: str, generate_time_slots: dict):
         start_timeslot_id =  generate_time_slots.keys().find(from_numeric)

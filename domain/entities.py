@@ -43,7 +43,9 @@ class SchedulingTemplate():
     # def get_numeric_template(self):
     #     return list([item.get_numeric_values() for item in self.items])
     
-    def get_timeslots(self, from_numeric: str, to_numeric: str, generate_time_slots: dict):
+    def get_timeslots(self, from_numeric: float, to_numeric: float, generate_time_slots: dict):
+        #print(generate_time_slots)
+        print(from_numeric, to_numeric)
         start_timeslot_id =  generate_time_slots[from_numeric]
         end_timeslot_id = generate_time_slots[to_numeric]
         return range(start_timeslot_id, end_timeslot_id + 1)
@@ -75,7 +77,7 @@ class SchedulingTemplate():
             for week_day in DayOfTheWeek:
                 for hour in range(24):
                     for minute in range(0, 60, 30):
-                        time_slot_code = f"{week_number}{week_day}{hour}"
+                        time_slot_code = f"{week_number}{week_day.value}{hour}"
                         time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
                         time_slot_id += 1
         

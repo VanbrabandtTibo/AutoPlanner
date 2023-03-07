@@ -141,6 +141,8 @@ class Combination:
         timeslots_arr = np.array(time_slots)
 
         # Use meshgrid to create 3-dimensional array of all combinations
-        combinations = np.array(np.meshgrid(employees_arr, patients_arr, timeslots_arr)).T.reshape(-1, 3)
+        # combinations = np.array(np.meshgrid(employees_arr, patients_arr, timeslots_arr)).T.reshape(-1, 3)
+
+        combinations = [[employee, patient, timeslot] for employee in employees_arr for patient in patients_arr for timeslot in timeslots_arr]
 
         return combinations

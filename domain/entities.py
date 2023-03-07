@@ -3,6 +3,7 @@ from typing import Callable
 import numpy as np
 import pandas as pd
 
+# DAYOFTHEWEEK CLASS
 class DayOfTheWeek(Enum):
     MONDAY = 1
     TUESDAY = 2
@@ -12,26 +13,12 @@ class DayOfTheWeek(Enum):
     SATURDAY = 6
     SUNDAY = 7
 
+# SCHEDULETEMPLATEITEM CLASS
 class ScheduleTemplateItem():
     def __init__(self, timeslot_id: int):
         self.timeslot_id = timeslot_id
 
-class TimeSlotGenerator:
-    @staticmethod
-    def generate_time_slots():
-        time_slots = {}
-        time_slot_id = 0
-        
-        for week_number in range(1, 53):
-            for week_day in DayOfTheWeek:
-                for hour in range(24):
-                    for minute in range(0, 60, 30):
-                        time_slot_code = f"{week_number}{week_day.value}{hour:02d}.{minute:02d}"
-                        time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
-                        time_slot_id += 1
-        
-        return time_slots
-
+# SCHEDULETEMPLATE CLASS
 class SchedulingTemplate():
     def __init__(self, items: list[ScheduleTemplateItem] = None):
         if items:
@@ -41,7 +28,7 @@ class SchedulingTemplate():
 
     def add_item(self, week_number: int, week_day: DayOfTheWeek, from_hours: float, to_hours: float):
         # get all possible timslots
-        generate_time_slots = TimeSlotGenerator.generate_time_slots()
+        generate_time_slots = self.generate_time_slots()
         # get the numeric codes for the from and to values
         from_numeric, to_numeric = self.get_numeric_values(week_number, week_day, from_hours, to_hours)
         # get the timeslot_ids that are between the from and to values
@@ -79,18 +66,25 @@ class SchedulingTemplate():
         numeric_to = f"{numeric_week_and_day}{pad_float(to_hours)}" 
         return (numeric_from, numeric_to)
     
-    def get_timeslots(self, from_numeric: str, to_numeric: str):
-        """
-        Returns a list of timeslots that are between the from and to values
-        """
-        generate_time_slots = TimeSlotGenerator.generate_time_slots()
-        timeslots = [generate_time_slots[key] for key in generate_time_slots if key >= from_numeric and key <= to_numeric]
-        return timeslots
+    @staticmethod
+    def generate_time_slots():
+        time_slots = {}
+        time_slot_id = 0
+        
+        for week_number in range(1, 53):
+            for week_day in DayOfTheWeek:
+                for hour in range(24):
+                    for minute in range(0, 60, 30):
+                        time_slot_code = f"{week_number}{week_day.value}{hour:02d}.{minute:02d}"
+                        time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
+                        time_slot_id += 1
+        
+        return time_slots
         
     def __str__(self):
         return '\n'.join([str(item) for item in self.items])
 
-    
+# PERSON CLASS    
 class Person():
     def __init__(self, id: int, schedule: SchedulingTemplate = None):
         self.id = id
@@ -99,6 +93,7 @@ class Person():
         else:
             self.schedule = SchedulingTemplate()
 
+# EMPLOYEE CLASS
 class Employee(Person):
     def __init__(self, id: int, schedule: SchedulingTemplate = None):
         super().__init__(id, schedule)
@@ -106,7 +101,7 @@ class Employee(Person):
     def __str__(self) -> str:
         return f'Schedule template for employee {self.id}\n{str(self.schedule)}'
 
-
+# PATIENT CLASS
 class Patient(Person):
     def __init__(self, id: int, schedule: SchedulingTemplate = None):
         super().__init__(id, schedule)
@@ -114,7 +109,7 @@ class Patient(Person):
     def __str__(self) -> str:
         return f'Schedule template for patient {self.id}\n{str(self.schedule)}'
     
-
+# PERSONLIST CLASS
 class PersonList:
     def __init__(self, persons: list[Person]): 
         self._persons = persons
@@ -125,7 +120,8 @@ class PersonList:
         grouped_persons = [[person for person in self._persons if person.schedule.get_numeric_template()[0] == template[0] and 
                                                                   person.schedule.get_numeric_template()[1] == template[1]] for template in templates]
         return grouped_persons
-        
+
+# COMBINATION CLASS     
 class Combination:
     def __init__(self, employee: list[Employee], patient: list[Patient]):
         self.employee = employee

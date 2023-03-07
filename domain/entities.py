@@ -75,7 +75,7 @@ class SchedulingTemplate():
             for week_day in DayOfTheWeek:
                 for hour in range(24):
                     for minute in range(0, 60, 30):
-                        time_slot_code = f"{week_number}{week_day.value}{hour:02d}.{minute:02d}"
+                        time_slot_code = f"{week_number}{week_day}{hour}"
                         time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
                         time_slot_id += 1
         

@@ -7,6 +7,8 @@ employee1 = Employee(1)
 employee2 = Employee(2)
 employee3 = Employee(3)
 
+#print(employee1)
+
 patient1 = Patient(1)
 patient2 = Patient(2)
 patient3 = Patient(3)
@@ -65,9 +67,11 @@ l_employees = [employee1, employee2, employee3]
 l_patients = [patient1, patient2, patient3]
 
 print("Done")
+print(employee1)
 
 combinations = Combination(l_employees, l_patients)
 c_arr = combinations.get_combinations()
+
 print(c_arr[0])
 print(c_arr[1])
 print(c_arr[2])

@@ -112,7 +112,7 @@ class PersonList:
         grouped_persons = [[person for person in self._persons if person.schedule.get_numeric_values()[0] == template[0] and 
                                                                   person.schedule.get_numeric_values()[1] == template[1]] for template in templates]
         return grouped_persons
-
+    
 # COMBINATION CLASS     
 class Combination:
     def __init__(self, employee: list[Employee], patient: list[Patient]):
@@ -128,7 +128,5 @@ class Combination:
 
         # Use meshgrid to create 3-dimensional array of all combinations
         # combinations = np.array(np.meshgrid(employees_arr, patients_arr, timeslots_arr)).T.reshape(-1, 3)
-
-        combinations = [(employee, patient, timeslot) for employee in employees_arr for patient in patients_arr for timeslot in timeslots_arr]
-
+        combinations = [employees_arr, patients_arr, timeslots_arr]
         return combinations

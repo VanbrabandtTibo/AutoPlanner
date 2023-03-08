@@ -108,9 +108,9 @@ class PersonList:
         self.group_persons_by_time_slot()
 
     def group_persons_by_time_slot(self):
-        templates = set(map(lambda x:x.schedule.get_numeric_template() ,self._persons))
-        grouped_persons = [[person for person in self._persons if person.schedule.get_numeric_template()[0] == template[0] and 
-                                                                  person.schedule.get_numeric_template()[1] == template[1]] for template in templates]
+        templates = set(map(lambda x:x.schedule.get_numeric_values() ,self._persons))
+        grouped_persons = [[person for person in self._persons if person.schedule.get_numeric_values()[0] == template[0] and 
+                                                                  person.schedule.get_numeric_values()[1] == template[1]] for template in templates]
         return grouped_persons
 
 # COMBINATION CLASS     
@@ -121,16 +121,10 @@ class Combination:
     
     # get 3 dimensional array of all combinations of employees and patients and time slots
     def get_combinations(self):
-        time_slots = set()
-        for person in self.employee + self.patient:
-            for item in person.schedule.items:
-                time_slots.add(item.timeslot_id)
-        time_slots = sorted(time_slots)
-
         # Create 1-dimensional arrays of employees, patients, and time slots
         employees_arr = np.array([employee.id for employee in self.employee])
         patients_arr = np.array([patient.id for patient in self.patient])
-        timeslots_arr = np.array(time_slots)
+        timeslots_arr = np.array([time_slot for time_slot in SchedulingTemplate.generate_time_slots().values()])
 
         # Use meshgrid to create 3-dimensional array of all combinations
         # combinations = np.array(np.meshgrid(employees_arr, patients_arr, timeslots_arr)).T.reshape(-1, 3)

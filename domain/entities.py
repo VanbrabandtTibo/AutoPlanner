@@ -63,9 +63,9 @@ class SchedulingTemplate():
         # this will pad zeros left so that there are 5 digits total with 2 digits after the decimal point.
         pad_float = lambda float: '%05.2f'% float
 
-        numeric_week_and_day = f"{week_number}{week_day}"
+        numeric_week_and_day = f"{week_number}{week_day.value}"
         numeric_from = f"{numeric_week_and_day}{pad_float(from_hours)}" 
-        numeric_to = f"{numeric_week_and_day}{pad_float(to_hours)}" 
+        numeric_to = f"{numeric_week_and_day}{pad_float(to_hours)}"
         return (numeric_from, numeric_to)
     
     @staticmethod
@@ -75,11 +75,15 @@ class SchedulingTemplate():
         
         for week_number in range(1, 53):
             for week_day in DayOfTheWeek:
-                for hour in range(24):
-                    for minute in range(0, 60, 30):
-                        time_slot_code = f"{week_number}{week_day.value}{hour}"
-                        time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
-                        time_slot_id += 1
+                for hour in np.arange(0, 24, 0.5):
+                    formatted_hour = "{:.2f}".format(hour)
+                    if hour < 10:
+                        time_slot_code = f"{week_number}{week_day.value}0{formatted_hour}"
+                    else:
+                        time_slot_code = f"{week_number}{week_day.value}{formatted_hour}"
+                    print(time_slot_code)
+                    time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
+                    time_slot_id += 1
         
         return time_slots
         

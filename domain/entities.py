@@ -20,11 +20,8 @@ class ScheduleTemplateItem():
 
 # SCHEDULETEMPLATE CLASS
 class SchedulingTemplate():
-    def __init__(self, items: list[ScheduleTemplateItem] = None):
-        if items:
-            self.items = items
-        else:
-            self.items = []
+    def __init__(self):
+        self.timeslot_ids = []
 
     def add_item(self, week_number: int, week_day: DayOfTheWeek, from_hours: float, to_hours: float):
         # get all possible timslots
@@ -39,13 +36,8 @@ class SchedulingTemplate():
     def add_items(self, items: list[tuple[int, DayOfTheWeek, float, float]]):
         [self.add_item(week_number = week_number, week_day=week_day, from_hours=from_hours, to_hours=to_hours) 
          for week_number, week_day, from_hours, to_hours in items]
-        
-    # def get_numeric_template(self):
-    #     return list([item.get_numeric_values() for item in self.items])
     
     def get_timeslots(self, from_numeric: float, to_numeric: float, generate_time_slots: dict):
-        #print(generate_time_slots)
-        print(from_numeric, to_numeric)
         start_timeslot_id =  generate_time_slots[from_numeric]
         end_timeslot_id = generate_time_slots[to_numeric]
         return range(start_timeslot_id, end_timeslot_id + 1)

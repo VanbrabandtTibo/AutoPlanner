@@ -15,3 +15,5 @@ employee1.schedule.add_items([
         (1, DayOfTheWeek.THURSDAY,9.5,12),
         (1, DayOfTheWeek.FRIDAY, 7,9.5),
     ])
+
+print("Done")

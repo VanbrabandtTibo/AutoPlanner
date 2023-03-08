@@ -13,15 +13,10 @@ class DayOfTheWeek(Enum):
     SATURDAY = 6
     SUNDAY = 7
 
-# SCHEDULETEMPLATEITEM CLASS
-class ScheduleTemplateItem():
-    def __init__(self, timeslot_id: int):
-        self.timeslot_id = timeslot_id
-
 # SCHEDULETEMPLATE CLASS
 class SchedulingTemplate():
     def __init__(self):
-        self.timeslot_ids = []
+        self.items = []	
 
     def add_item(self, week_number: int, week_day: DayOfTheWeek, from_hours: float, to_hours: float):
         # get all possible timslots
@@ -31,7 +26,7 @@ class SchedulingTemplate():
         # get the timeslot_ids that are between the from and to values
         timeslot_ids = self.get_timeslots(from_numeric, to_numeric, generate_time_slots)
         # add the timeslots to the template
-        self.items.extend(ScheduleTemplateItem(timeslot_id) for timeslot_id in timeslot_ids)
+        self.items.extend(timeslot_id for timeslot_id in timeslot_ids)
     
     def add_items(self, items: list[tuple[int, DayOfTheWeek, float, float]]):
         [self.add_item(week_number = week_number, week_day=week_day, from_hours=from_hours, to_hours=to_hours) 
@@ -73,8 +68,7 @@ class SchedulingTemplate():
                         time_slot_code = f"{week_number}{week_day.value}0{formatted_hour}"
                     else:
                         time_slot_code = f"{week_number}{week_day.value}{formatted_hour}"
-                    print(time_slot_code)
-                    time_slots[time_slot_code] = ScheduleTemplateItem(time_slot_id)
+                    time_slots[time_slot_code] = time_slot_id
                     time_slot_id += 1
         
         return time_slots
